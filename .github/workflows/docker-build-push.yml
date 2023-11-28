@@ -1,0 +1,23 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t umeedsalman/maven-java-monitoring-example:latest .
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push umeedsalman/maven-java-monitoring-example:latest
